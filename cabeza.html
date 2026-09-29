@@ -111,16 +111,20 @@
         }
       }
 
-      /* Parallax: transform puro, 10% del alto, solo >= 768px. */
+      /* Parallax: transform puro, 10% del alto, solo >= 768px, y nunca si la
+         persona pidio menos movimiento. La imagen se escala antes de moverse:
+         si no, el desplazamiento destapa los bordes dentro del recorte. */
+      var sinMover = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       var capa = document.getElementById('cgl-hero-img');
-      if (capa && !movemos && window.matchMedia('(min-width: 768px)').matches) {
+      if (capa && !movemos && !sinMover && window.matchMedia('(min-width: 768px)').matches) {
         capa.classList.add('cgl-parallax');
         var tope = 10;
         var ajustar = function () {
           var r = capa.getBoundingClientRect();
           if (r.bottom < 0) return;
           var avance = Math.min(Math.max(-r.top / r.height, 0), 1);
-          capa.style.transform = 'translate3d(0,' + ((avance - 0.5) * tope).toFixed(2) + '%,0)';
+          capa.style.transform = 'scale(1.14) translate3d(0,' +
+            ((avance - 0.5) * tope).toFixed(2) + '%,0)';
         };
         var ticking = false;
         window.addEventListener('scroll', function () {
