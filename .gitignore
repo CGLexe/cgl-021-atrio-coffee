@@ -9,6 +9,9 @@ og.bmp
 
 node_modules/
 .DS_Store
+
+# Vercel: el project link y el token OIDC que escribe `vercel link`.
+# El token no viaja al repo bajo ningun motivo.
+.vercel
 .env
 .env.*
-.vercel
